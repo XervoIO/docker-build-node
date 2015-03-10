@@ -1,0 +1,13 @@
+{
+  "name": "modulus-node-builder",
+  "version": "1.0.0",
+  "description": "Build node projects for deployment to Modulus",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Modulus <info@modulus.io> (http://modulus.io/)",
+  "maintainers": [
+    "Jack Boberg <jack@modulus.io>"
+  ],
+  "license": "MIT"
+}
