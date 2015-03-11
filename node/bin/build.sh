@@ -6,12 +6,15 @@ if [[ ! -d $INPUT_DIR ]] || [[ ! -d $OUTPUT_DIR ]]; then
   exit 1
 fi
 
+CURRENT_DIR=$(pwd)
+
 source /root/.nvm/nvm.sh
 
 # recursively search input directory for a package.json or npm-shrinkwrap.json
 PACKAGE_PATH=$(find-package $INPUT_DIR)
 
 if [[ $PACKAGE_PATH ]]; then
+  printf "package found: $PACKAGE_PATH"
 
   # `get-version` parses input for known versions and picks
   # based on semver compared to package.json (if present)
@@ -19,16 +22,17 @@ if [[ $PACKAGE_PATH ]]; then
   NODE_VERSION=$(nvm ls-remote | get-version --engine node --package $PACKAGE | tail -n 1)
   NPM_VERSION=$(npm view npm --json | get-version --engine npm --package $PACKAGE | tail -n 1)
 
-  echo "nvm install $NODE_VERSION"
-  nvm install $NODE_VERSION
+  printf "\n> nvm install $NODE_VERSION\n"
+  echo $(nvm install $NODE_VERSION)
 
-  echo "npm install npm@$NPM_VERSION --global"
-  npm install npm@$NPM_VERSION --global
+  printf "\n> npm install npm@$NPM_VERSION --global\n"
+  echo $(npm install npm@$NPM_VERSION --global)
 
-  echo "cd ${PACKAGE_PATH%/*} && npm install --production"
+  printf "\n> cd ${PACKAGE_PATH%/*} && npm install --production\n"
   cd ${PACKAGE_PATH%/*}
-  npm install --production
+  echo $(npm install --production --loglevel info)
 fi
 
-echo "cp -R $INPUT_DIR/* $OUTPUT_DIR"
+printf "\n> cp -R $INPUT_DIR/* $OUTPUT_DIR\n"
+cd $CURRENT_DIR
 cp -R $INPUT_DIR/* $OUTPUT_DIR
