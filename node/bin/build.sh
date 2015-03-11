@@ -8,6 +8,7 @@ fi
 
 source /root/.nvm/nvm.sh
 
+# recursively search input directory for a package.json or npm-shrinkwrap.json
 PACKAGE_PATH=$(find-package $INPUT_DIR)
 
 if [[ $PACKAGE_PATH ]]; then
