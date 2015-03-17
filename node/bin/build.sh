@@ -18,7 +18,7 @@ CURRENT_DIR=$(pwd)
 
 source /root/.nvm/nvm.sh
 
-# recursively search input directory for a package.json or npm-shrinkwrap.json
+# recursively search input directory for a package.json
 PACKAGE_PATH=$(find-package $INPUT_DIR)
 
 if [[ $PACKAGE_PATH ]]; then
@@ -46,6 +46,9 @@ if [[ $PACKAGE_PATH ]]; then
   npm install npm@$NPM_VERSION --global
 
   printf "\n> cd ${PACKAGE_PATH%/*} && npm install --production\n"
+  if [[ -f ${PACKAGE_PATH%/*}/npm-shrinkwrap.json ]]; then
+    printf "WARN: npm-shrinkwrap.json will override dependencies declared in package.json.\n"
+  fi
   cd ${PACKAGE_PATH%/*}
   npm install --production --loglevel info
 fi
