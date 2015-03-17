@@ -3,11 +3,10 @@ var assert  = require('assert');
 var os      = require('os');
 
 var argv    = require('minimist')(process.argv.slice(2));
-var concat  = require('concat-stream');
+var stdin   = require('get-stdin');
 var semver  = require('semver');
 var winston = require('winston');
 
-var pkg = {};
 var logger = new winston.Logger({
   transports: [
     new winston.transports.Console({
@@ -20,6 +19,7 @@ var logger = new winston.Logger({
 
 function getEngineEntry(engine) {
   try {
+    var pkg = require(argv.package);
     return pkg.engines[engine];
   } catch (e) {
     return false;
@@ -67,7 +67,6 @@ function getNodeVersion(input) {
   return version;
 }
 
-
 function getNpmVersion(input) {
   var data = JSON.parse(input);
   var npmRange = getEngineEntry('npm');
@@ -87,7 +86,11 @@ function getNpmVersion(input) {
   return version;
 }
 
-function getVersion(input) {
+logger.debug('get-version', argv);
+assert(argv.engine, 'Must specify engine');
+
+// read stdin and run appropriate parser
+stdin(function (input) {
   var version;
 
   switch(argv.engine) {
@@ -102,15 +105,4 @@ function getVersion(input) {
   }
 
   process.stdout.write(version);
-}
-
-logger.debug('get-version', argv);
-
-assert(argv.engine, 'Must specify engine');
-
-if (argv.package) {
-  pkg = require(argv.package);
-}
-
-// read stdin and run appropriate parser
-process.stdin.pipe(concat({ encoding: 'string' }, getVersion));
+});
