@@ -42,6 +42,11 @@ if [[ $PACKAGE_PATH ]]; then
   printf "\n> nvm install $NODE_VERSION\n"
   nvm install $NODE_VERSION
 
+  if [[ $FORCE_NPM_REINSTALL ]]; then
+    npm uninstall npm --global
+    curl -L https://npmjs.com/install.sh | sh
+  fi
+
   printf "\n> npm install npm@$NPM_VERSION --global\n"
   npm install npm@$NPM_VERSION --global
 
