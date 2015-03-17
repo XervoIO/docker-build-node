@@ -1,6 +1,14 @@
 #!/bin/bash
 set -e
 
+if [[ ! $INPUT_DIR ]] || [[ ! $OUTPUT_DIR ]]; then
+  echo "input/output directory variables must be set"
+  exit 1
+fi
+
+mkdir -p $INPUT_DIR
+mkdir -p $OUTPUT_DIR
+
 if [[ ! -d $INPUT_DIR ]] || [[ ! -d $OUTPUT_DIR ]]; then
   echo "input/output directories must exist"
   exit 1
