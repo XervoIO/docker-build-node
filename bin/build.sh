@@ -17,6 +17,7 @@ fi
 CURRENT_DIR=$(pwd)
 
 source /root/.nvm/nvm.sh
+# source /usr/local/opt/nvm/nvm.sh
 
 # recursively search input directory for a package.json
 PACKAGE_PATH=$(find-package $INPUT_DIR)
@@ -42,7 +43,7 @@ if [[ $PACKAGE_PATH ]]; then
   printf "\n> nvm install $NODE_VERSION\n"
   nvm install $NODE_VERSION
 
-  if [[ $FORCE_NPM_REINSTALL ]]; then
+  if [[ $FORCE_NPM_INSTALL ]]; then
     npm uninstall npm --global
     curl -L https://npmjs.com/install.sh | sh
   fi
