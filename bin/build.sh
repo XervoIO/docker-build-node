@@ -20,7 +20,10 @@ source /root/.nvm/nvm.sh
 # source /usr/local/opt/nvm/nvm.sh
 
 # recursively search input directory for a package.json
-PACKAGE_PATH=$(find-package $INPUT_DIR)
+PACKAGE_PATH=$(find $INPUT_DIR -name package.json ! -path "*/node_modules/*"  ! -path ".git/*"  | \
+  awk -F'/' '{print $0 "," NF-1}' | \
+  sort -t, -nk2 | awk -F',' '{print $1}' | \
+  head -n 1)
 
 if [[ $PACKAGE_PATH ]]; then
   printf "package found: $PACKAGE_PATH\n"
