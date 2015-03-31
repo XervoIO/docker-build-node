@@ -31,13 +31,13 @@ if [[ $PACKAGE_PATH ]]; then
   # `get-version` parses input for known versions and picks
   # based on semver compared to package.json (if present)
   # output contains logging, last line is determined version string
-  NODE_VERSION=$(nvm ls-remote | get-version --engine node --package $PACKAGE_PATH | tail -n 1)
+  NODE_VERSION=$(get-version --engine node $PACKAGE_PATH)
   if [[ ! $NODE_VERSION ]]; then
     echo "unable to determine node version"
     exit 1
   fi
 
-  NPM_VERSION=$(npm view npm --json | get-version --engine npm --package $PACKAGE_PATH | tail -n 1)
+  NPM_VERSION=$(get-version --engine npm $PACKAGE_PATH)
   if [[ ! $NPM_VERSION ]]; then
     echo "unable to determine npm version"
     exit 1

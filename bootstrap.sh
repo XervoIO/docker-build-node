@@ -9,5 +9,5 @@ source ~/.nvm/nvm.sh
 nvm install 0.10
 nvm alias default 0.10
 
-cd /opt/modulus
-npm install
+# install get-version
+npm install -g get-version
