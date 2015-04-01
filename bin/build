@@ -20,7 +20,10 @@ source /root/.nvm/nvm.sh
 # source /usr/local/opt/nvm/nvm.sh
 
 # recursively search input directory for a package.json
-PACKAGE_PATH=$(find-package $INPUT_DIR)
+PACKAGE_PATH=$(find $INPUT_DIR -name package.json ! -path "*/node_modules/*"  ! -path ".git/*"  | \
+  awk -F'/' '{print $0 "," NF-1}' | \
+  sort -t, -nk2 | awk -F',' '{print $1}' | \
+  head -n 1)
 
 if [[ $PACKAGE_PATH ]]; then
   printf "package found: $PACKAGE_PATH\n"
@@ -28,13 +31,13 @@ if [[ $PACKAGE_PATH ]]; then
   # `get-version` parses input for known versions and picks
   # based on semver compared to package.json (if present)
   # output contains logging, last line is determined version string
-  NODE_VERSION=$(nvm ls-remote | get-version --engine node --package $PACKAGE_PATH | tail -n 1)
+  NODE_VERSION=$(get-version --engine node $PACKAGE_PATH)
   if [[ ! $NODE_VERSION ]]; then
     echo "unable to determine node version"
     exit 1
   fi
 
-  NPM_VERSION=$(npm view npm --json | get-version --engine npm --package $PACKAGE_PATH | tail -n 1)
+  NPM_VERSION=$(get-version --engine npm $PACKAGE_PATH)
   if [[ ! $NPM_VERSION ]]; then
     echo "unable to determine npm version"
     exit 1
