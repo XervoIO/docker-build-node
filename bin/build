@@ -60,6 +60,10 @@ if [[ $PACKAGE_PATH ]]; then
   fi
   cd ${PACKAGE_PATH%/*}
   npm install --production --loglevel info
+
+  if [[ $RUN_TESTS ]]; then
+    npm test
+  fi
 fi
 
 printf "\n> cp -R $INPUT_DIR/* $OUTPUT_DIR\n"
