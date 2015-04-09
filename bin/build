@@ -16,8 +16,8 @@ fi
 
 CURRENT_DIR=$(pwd)
 
-source /root/.nvm/nvm.sh
-# source /usr/local/opt/nvm/nvm.sh
+NVM_DIR=$HOME/.nvm
+source /opt/nvm/nvm.sh
 
 # recursively search input directory for a package.json
 PACKAGE_PATH=$(find $INPUT_DIR -name package.json ! -path "*/node_modules/*"  ! -path ".git/*"  | \

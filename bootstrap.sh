@@ -1,13 +1,19 @@
 #!/bin/bash
 set -e
+set -x
+
+# overwrite env from base image
+export HOME=/root
+export TEMP_DIR=/root/tmp
 
 # install nvm
+export NVM_DIR=/opt/nvm
+mkdir -p $NVM_DIR
 curl https://raw.githubusercontent.com/creationix/nvm/v0.23.3/install.sh | bash
-source ~/.nvm/nvm.sh
 
-# install node 0.10.x
-nvm install 0.10
-nvm alias default 0.10
+# ensure mop can use nvm, but not write to it
+chown mop:mop /opt/nvm/nvm.sh
+chmod g-w /opt/nvm/nvm.sh
 
 # install get-version
 npm install -g get-version
