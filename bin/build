@@ -2,7 +2,7 @@
 set -e
 
 if [[ ! $INPUT_DIR ]] || [[ ! $OUTPUT_DIR ]]; then
-  echo "input/output directory variables must be set"
+  echo "Input/Output directory variables must be set.\n"
   exit 1
 fi
 
@@ -10,7 +10,7 @@ mkdir -p $INPUT_DIR
 mkdir -p $OUTPUT_DIR
 
 if [[ ! -d $INPUT_DIR ]] || [[ ! -d $OUTPUT_DIR ]]; then
-  echo "input/output directories must exist"
+  echo "Input/Output directories must exist.\n"
   exit 1
 fi
 
@@ -26,46 +26,41 @@ PACKAGE_PATH=$(find $INPUT_DIR -name package.json ! -path "*/node_modules/*"  ! 
   head -n 1)
 
 if [[ $PACKAGE_PATH ]]; then
-  printf "package found: $PACKAGE_PATH\n"
+  printf "Package found: $PACKAGE_PATH\n"
 
   # `get-version` parses input for known versions and picks
   # based on semver compared to package.json (if present)
   # output contains logging, last line is determined version string
   NODE_VERSION=$(get-version --engine node $PACKAGE_PATH)
   if [[ ! $NODE_VERSION ]]; then
-    echo "unable to determine node version"
+    printf "Unable to determine node version.\n"
     exit 1
   fi
 
   NPM_VERSION=$(get-version --engine npm $PACKAGE_PATH)
   if [[ ! $NPM_VERSION ]]; then
-    echo "unable to determine npm version"
+    echo "Unable to determine npm version.\n"
     exit 1
   fi
 
-  printf "\n> nvm install $NODE_VERSION\n"
-  nvm install $NODE_VERSION
+  printf "Installing node $NODE_VERSION\n"
+  nvm install $NODE_VERSION > /dev/null 2>&1
 
-  if [[ $FORCE_NPM_INSTALL ]]; then
-    npm uninstall npm --global
-    curl -L https://npmjs.com/install.sh | sh
-  fi
+  printf "Installing npm $NPM_VERSION\n"
+  npm install npm@$NPM_VERSION --global > /dev/null 2>&1
 
-  printf "\n> npm install npm@$NPM_VERSION --global\n"
-  npm install npm@$NPM_VERSION --global
-
-  printf "\n> cd ${PACKAGE_PATH%/*} && npm install --production\n"
+  printf "Installing packages from $PACKAGE_PATH\n"
   if [[ -f ${PACKAGE_PATH%/*}/npm-shrinkwrap.json ]]; then
     printf "WARN: npm-shrinkwrap.json will override dependencies declared in package.json.\n"
   fi
   cd ${PACKAGE_PATH%/*}
-  npm install --production --loglevel info
+  npm install --production --quiet
 
   if [[ $RUN_TESTS ]]; then
+    printf "Running tests.\n"
     npm test
   fi
 fi
 
-printf "\n> cp -R $INPUT_DIR/* $OUTPUT_DIR\n"
 cd $CURRENT_DIR
 cp -R $INPUT_DIR/* $OUTPUT_DIR
