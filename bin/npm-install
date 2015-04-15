@@ -30,6 +30,10 @@ nvm install $NODE_VERSION > /dev/null 2>&1
 printf "Installing npm $NPM_VERSION\n"
 npm install npm@$NPM_VERSION --global > /dev/null 2>&1
 
+if [[ $NPM_USER ]] && [[ $NPM_PASSWORD ]] && [[ $NPM_EMAIL ]]; then
+  npm-login
+fi
+
 printf "Installing packages from $PACKAGE_PATH\n"
 if [[ -f ${PACKAGE_PATH%/*}/npm-shrinkwrap.json ]]; then
   printf "WARN: npm-shrinkwrap.json will override dependencies declared in package.json.\n"
