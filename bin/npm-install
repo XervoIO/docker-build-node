@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -e
+
+if [[ ! $PACKAGE_PATH ]]; then
+  printf "PACKAGE_PATH variable not set"
+  exit 1;
+fi
+
+NVM_DIR=$HOME/.nvm
+source /opt/nvm/nvm.sh
+
+# `get-version` parses input for known versions and picks
+# based on semver compared to package.json (if present)
+# output contains logging, last line is determined version string
+NODE_VERSION=$(get-version --engine node $PACKAGE_PATH)
+if [[ ! $NODE_VERSION ]]; then
+  printf "Unable to determine node version.\n"
+  exit 1
+fi
+
+NPM_VERSION=$(get-version --engine npm $PACKAGE_PATH)
+if [[ ! $NPM_VERSION ]]; then
+  echo "Unable to determine npm version.\n"
+  exit 1
+fi
+
+printf "Installing node $NODE_VERSION\n"
+nvm install $NODE_VERSION > /dev/null 2>&1
+
+printf "Installing npm $NPM_VERSION\n"
+npm install npm@$NPM_VERSION --global > /dev/null 2>&1
+
+printf "Installing packages from $PACKAGE_PATH\n"
+if [[ -f ${PACKAGE_PATH%/*}/npm-shrinkwrap.json ]]; then
+  printf "WARN: npm-shrinkwrap.json will override dependencies declared in package.json.\n"
+fi
+cd ${PACKAGE_PATH%/*}
+npm install --production --quiet
+
+if [[ $RUN_TESTS ]]; then
+  printf "Running tests.\n"
+  npm test
+fi
