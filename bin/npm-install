@@ -16,9 +16,6 @@ else
   SOURCE_PATH=$PACKAGE_PATH
 fi
 
-# `get-version` parses input for known versions and picks
-# based on semver compared to package.json (if present)
-# output contains logging, last line is determined version string
 NODE_VERSION=$(get-version --engine node $SOURCE_PATH)
 if [[ ! $NODE_VERSION ]]; then
   printf "Unable to determine node version.\n"
