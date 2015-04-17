@@ -9,16 +9,20 @@ fi
 NVM_DIR=$HOME/.nvm
 source /opt/nvm/nvm.sh
 
-# `get-version` parses input for known versions and picks
-# based on semver compared to package.json (if present)
-# output contains logging, last line is determined version string
-NODE_VERSION=$(get-version --engine node $PACKAGE_PATH)
+# support deriving versions from app.json or package.json
+if [ -f ${INPUT_DIR}/app.json ] && [[ $MODULUS_CONFIG_ENGINES_NODE || $MODULUS_CONFIG_ENGINES_IOJS ]]; then
+  SOURCE_PATH=${INPUT_DIR}/app.json
+else
+  SOURCE_PATH=$PACKAGE_PATH
+fi
+
+NODE_VERSION=$(get-version --engine node $SOURCE_PATH)
 if [[ ! $NODE_VERSION ]]; then
   printf "Unable to determine node version.\n"
   exit 1
 fi
 
-NPM_VERSION=$(get-version --engine npm $PACKAGE_PATH)
+NPM_VERSION=$(get-version --engine npm $SOURCE_PATH)
 if [[ ! $NPM_VERSION ]]; then
   echo "Unable to determine npm version.\n"
   exit 1
