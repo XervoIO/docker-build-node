@@ -23,7 +23,7 @@ PACKAGE_PATH=$(find $INPUT_DIR -name package.json ! -path "*/node_modules/*"  ! 
   head -n 1)
 
 if [[ $PACKAGE_PATH ]]; then
-  printf "Package found: $PACKAGE_PATH\n"
+  printf "Package found: ${PACKAGE_PATH/$INPUT_DIR/}\n"
   export PACKAGE_PATH
 
   node-install
