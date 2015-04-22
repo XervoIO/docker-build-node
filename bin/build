@@ -25,7 +25,20 @@ PACKAGE_PATH=$(find $INPUT_DIR -name package.json ! -path "*/node_modules/*"  ! 
 if [[ $PACKAGE_PATH ]]; then
   printf "Package found: $PACKAGE_PATH\n"
   export PACKAGE_PATH
+
+  node-install
+
+  if [[ $NPM_USER ]] && [[ $NPM_PASSWORD ]] && [[ $NPM_EMAIL ]]; then
+    npm-login
+  fi
+
   npm-install
+
+  if [[ $RUN_TESTS ]]; then
+    printf "Running tests.\n"
+    cd ${PACKAGE_PATH%/*}
+    npm test
+  fi
 fi
 
 cd $CURRENT_DIR
