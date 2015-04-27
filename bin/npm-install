@@ -12,10 +12,14 @@ cd ${PACKAGE_PATH%/*}
 i="0"
 INSTALL_STATUS=1
 
+DEP_FLAG="--production"
+if [[ "$RUN_TESTS" == "true" ]]; then
+  DEP_FLAG=''
+fi
+
 # attempt to run install 3 times
 while [[ $i -lt 3 && $INSTALL_STATUS -ne 0 ]]; do
-  printf "Executing npm install."
-  npm install --production --quiet
+  npm install $DEP_FLAG --quiet
 
   INSTALL_STATUS=$?
   i=$[$i+1]
