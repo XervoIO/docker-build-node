@@ -16,13 +16,13 @@ else
   SOURCE_PATH=$PACKAGE_PATH
 fi
 
-NODE_VERSION=$(get-version --engine node $SOURCE_PATH)
+NODE_VERSION=$(get-version --engine node $SOURCE_PATH 2>/dev/null)
 if [[ ! $NODE_VERSION ]]; then
   printf "Unable to determine node version.\n"
   exit 1
 fi
 
-NPM_VERSION=$(get-version --engine npm $SOURCE_PATH)
+NPM_VERSION=$(get-version --engine npm $SOURCE_PATH 2>/dev/null)
 if [[ ! $NPM_VERSION ]]; then
   echo "Unable to determine npm version.\n"
   exit 1
