@@ -19,6 +19,9 @@ fi
 
 # attempt to run install 3 times
 while [[ $i -lt 3 && $INSTALL_STATUS -ne 0 ]]; do
+  if [[ "$i" -gt 0 ]]; then
+    printf "npm install failed, trying again\n"
+  fi
   npm install $DEP_FLAG --quiet
 
   INSTALL_STATUS=$?
