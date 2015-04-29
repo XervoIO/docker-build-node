@@ -2,7 +2,7 @@
 # do not `set -e`
 # retry on fail
 
-printf "Installing packages from $PACKAGE_PATH\n"
+printf "Installing packages from ${PACKAGE_PATH/$INPUT_DIR/}\n"
 if [[ -f ${PACKAGE_PATH%/*}/npm-shrinkwrap.json ]]; then
   printf "WARN: npm-shrinkwrap.json will override dependencies declared in package.json.\n"
 fi
