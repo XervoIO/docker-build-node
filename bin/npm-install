@@ -28,4 +28,9 @@ while [[ $i -lt 3 && $INSTALL_STATUS -ne 0 ]]; do
   i=$[$i+1]
 done
 
-exit $INSTALL_STATUS
+if [[ $MODULUS_CONFIG_IGNORE_NPM_ERRORS == "true" ]]; then
+  printf "Ignoring npm errors and continuing build attempt.\n"
+  exit 0
+else
+  exit $INSTALL_STATUS
+fi
