@@ -34,7 +34,7 @@ if [[ $PACKAGE_PATH ]]; then
 
   npm-install
 
-  if [[ $RUN_TESTS = "true" ]]; then
+  if [[ $RUN_TESTS == "true" ]]; then
     printf "Running tests.\n"
     cd ${PACKAGE_PATH%/*}
     npm test
