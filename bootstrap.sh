@@ -4,10 +4,20 @@ set -x
 
 # overwrite env from base image
 export HOME=/root
-export TEMP_DIR=/root/tmp
+export TEMP_DIR=/tmp
+export TMPDIR=/tmp
+export TMP_DIR=/tmp
 
 #install dependent libraries
-apt-get update && apt-get install -y libssl0.9.8 libsqlite-dev libexpat1 libexpat1-dev libicu-dev libpq-dev libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev libxml2-dev
+apt-get update && apt-get install -y libssl0.9.8 libsqlite-dev libexpat1 libexpat1-dev libicu-dev libpq-dev libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev libxml2-dev \
+  libmagickcore-dev libmagickwand-dev
+
+# Install ImageMagick
+cd /opt
+wget http://www.imagemagick.org/download/ImageMagick.tar.gz
+tar -xf ImageMagick.tar.gz && mv ImageMagick-* ImageMagick && cd ImageMagick && ./configure && make && sudo make install
+ldconfig /usr/local/lib && rm -rf /opt/ImageMagick*
+cd /opt
 
 # install nvm
 export NVM_DIR=/opt/nvm
