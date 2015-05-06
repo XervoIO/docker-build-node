@@ -42,4 +42,4 @@ if [[ $PACKAGE_PATH ]]; then
 fi
 
 cd $CURRENT_DIR
-cp -R $INPUT_DIR/* $OUTPUT_DIR
+cp -R $INPUT_DIR/. $OUTPUT_DIR
