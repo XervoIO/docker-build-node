@@ -26,11 +26,6 @@ if [[ $PACKAGE_PATH ]]; then
   printf "Package found: ${PACKAGE_PATH/$INPUT_DIR/}\n"
   export PACKAGE_PATH
 
-  if [[ ! $PACKAGE_PATH ]]; then
-    printf "PACKAGE_PATH variable not set"
-    exit 1;
-  fi
-
   NVM_DIR=$HOME/.nvm
   source /opt/nvm/nvm.sh
 
@@ -41,13 +36,13 @@ if [[ $PACKAGE_PATH ]]; then
     SOURCE_PATH=$PACKAGE_PATH
   fi
 
-  NODE_VERSION=$(get-version --engine node $SOURCE_PATH 2>/dev/null)
+  NODE_VERSION=$(get-version --engine node $SOURCE_PATH 2>/dev/null) || true
   if [[ ! $NODE_VERSION ]]; then
-    printf "Unable to determine node version.\n"
+    printf "Unable to determine Node version. Verify package.json has no errors.\n"
     exit 1
   fi
 
-  NPM_VERSION=$(get-version --engine npm $SOURCE_PATH 2>/dev/null)
+  NPM_VERSION=$(get-version --engine npm $SOURCE_PATH 2>/dev/null) || true
   if [[ ! $NPM_VERSION ]]; then
     echo "Unable to determine npm version.\n"
     exit 1
