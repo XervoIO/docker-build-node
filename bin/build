@@ -69,3 +69,10 @@ fi
 
 cd $CURRENT_DIR
 cp -R $INPUT_DIR/. $OUTPUT_DIR
+
+MOD_DIR=$OUTPUT_DIR/.modulus
+mkdir -p $MOD_DIR
+
+# bundle nvm with output
+nvm alias deploy $(nvm current)
+cp -R $NVM_DIR/. $MOD_DIR/nvm
