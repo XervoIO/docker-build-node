@@ -9,6 +9,11 @@ fi
 
 cd ${PACKAGE_PATH%/*}
 
+if [[ -d ./node_modules ]]; then
+  printf "Rebuilding node modules.\n"
+  npm rebuild
+fi
+
 i="0"
 INSTALL_STATUS=1
 
