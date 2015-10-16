@@ -13,6 +13,7 @@ apt-get update && apt-get install -y libssl0.9.8 libsqlite-dev libexpat1 libexpa
   libmagickcore-dev libmagickwand-dev
 
 # Install ImageMagick
+export MAKEFLAGS="-j $(grep -c ^processor /proc/cpuinfo)"
 cd /opt
 wget http://www.imagemagick.org/download/ImageMagick.tar.gz
 tar -xf ImageMagick.tar.gz && mv ImageMagick-* ImageMagick && cd ImageMagick && ./configure && make && sudo make install

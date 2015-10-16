@@ -1,4 +1,4 @@
-FROM onmodulus/image-build-base:0.0.1
+FROM onmodulus/docker-build-base
 
 ADD . /opt/modulus
 RUN /opt/modulus/bootstrap.sh
