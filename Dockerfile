@@ -1,4 +1,4 @@
-FROM onmodulus/docker-build-base
+FROM onmodulus/build-base
 
 ADD . /opt/modulus
 RUN /opt/modulus/bootstrap.sh
