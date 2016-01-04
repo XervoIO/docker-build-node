@@ -33,4 +33,4 @@ chmod g-w /opt/nvm/nvm.sh
 npm install -g get-version
 
 # Clean stuff up that's no longer needed
-apt-get autoclean && apt-get autoremove && apt-get clean
+apt-get autoclean && apt-get autoremove -y && apt-get clean
