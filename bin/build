@@ -68,7 +68,8 @@ if [[ $PACKAGE_PATH ]]; then
 fi
 
 cd $CURRENT_DIR
-cp -R $INPUT_DIR/. $OUTPUT_DIR
+# Move all the files in Input Dir to Outpup Dir.  Include dot files
+mv $INPUT_DIR/{*,.*} $OUTPUT_DIR > /dev/null 2>&1
 
 MOD_DIR=$OUTPUT_DIR/.modulus
 mkdir -p $MOD_DIR
