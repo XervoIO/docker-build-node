@@ -9,8 +9,10 @@ export TMPDIR=/tmp
 export TMP_DIR=/tmp
 
 #install dependent libraries
-apt-get update && apt-get install -y libssl0.9.8 libsqlite-dev libexpat1 libexpat1-dev libicu-dev libpq-dev libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev libxml2-dev \
-  libmagickcore-dev libmagickwand-dev
+apt-get update && apt-get install -y libssl0.9.8 libsqlite-dev libexpat1 \
+  libexpat1-dev libicu-dev libpq-dev libcairo2-dev libjpeg8-dev \
+  libpango1.0-dev libgif-dev libxml2-dev libmagickcore-dev libmagickwand-dev \
+  libkrb5-dev
 
 # Install ImageMagick
 export MAKEFLAGS="-j $(grep -c ^processor /proc/cpuinfo)"
