@@ -8,6 +8,9 @@ export TEMP_DIR=/tmp
 export TMPDIR=/tmp
 export TMP_DIR=/tmp
 
+# install expect
+apt-get install -y expect
+
 # install nvm
 export NVM_DIR=/opt/nvm
 mkdir -p $NVM_DIR
