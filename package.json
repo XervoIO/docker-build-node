@@ -1,0 +1,26 @@
+{
+  "name": "docker-build-node",
+  "version": "1.1.1",
+  "description": "The Docker build image for Xervo Node.js applications",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onmodulus/docker-build-node.git"
+  },
+  "keywords": [
+    "xervo",
+    "docker",
+    "nodejs",
+    "node"
+  ],
+  "author": "Jeremiah Harlan <jeremiah@hellotangible.com>",
+  "license": "https://github.com/onmodulus/docker-build-node/blob/master/LICENSE",
+  "bugs": {
+    "url": "https://github.com/onmodulus/docker-build-node/issues"
+  },
+  "homepage": "https://github.com/onmodulus/docker-build-node#readme",
+  "maintainers": [
+    "Jack Boberg <jack@hellotangible.com>",
+    "Clark Sell <clark@hellotangible.com>",
+    "Brandon Satrom <brandon@hellotangible.com>"
+  ]
+}
